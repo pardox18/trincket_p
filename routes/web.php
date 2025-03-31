@@ -21,9 +21,11 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 // Rutas de productos (mostrar productos, crear, mostrar detalles)
 Route::get('products', [ProductController::class, 'index'])->name('products.index'); // Página de productos
-Route::get('products/create', [ProductController::class, 'create'])->name('products.create'); // Crear producto
-Route::post('products', [ProductController::class, 'store'])->name('products.store'); // Guardar producto
-Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show'); // Ver detalles de un producto
+Route::middleware(['auth'])->group(function () {
+    Route::get('products/create', [ProductController::class, 'create'])->name('products.create'); // Crear producto
+    Route::post('products', [ProductController::class, 'store'])->name('products.store'); // Guardar producto
+    Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show'); // Ver detalles de un producto
+});
 
 // Ruta para la compra de producto
 Route::post('purchase/{product}', [PurchaseController::class, 'purchase'])->name('purchase');
